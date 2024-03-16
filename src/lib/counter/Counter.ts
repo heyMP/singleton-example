@@ -3,7 +3,6 @@ export class Counter extends EventTarget {
 
   static {
     Counter.instance = new Counter();
-    window.counter ??= Counter.instance;
   }
 
   private _count = 0;
@@ -19,12 +18,14 @@ export class Counter extends EventTarget {
 
   increment(amount = 1) {
     this.count += amount;
-    this.dispatchEvent(new CounterIncrementEvent(this.count));
   }
 
   decrement(amount = 1) {
-    this.count -= amount;
-    this.dispatchEvent(new CounterDecrementEvent(this.count));
+    let newCount = this.count - amount;
+    newCount = newCount < 0 ? 0 : newCount;
+    if (newCount !== this.count) {
+      this.count = newCount;
+    }
   }
 }
 
@@ -37,18 +38,6 @@ export class CounterChangeEvent extends Event {
   }
 }
 
-export class CounterIncrementEvent extends Event {
-  constructor(public amount: number) {
-    super('increment');
-  }
-}
-
-export class CounterDecrementEvent extends Event {
-  constructor(public amount: number) {
-    super('decrement');
-  }
-}
-
 /**
  * Define Custom Element
  */
@@ -57,8 +46,13 @@ export class CounterSingleton extends HTMLElement {
     super();
   }
 
+  get counter() {
+    return Counter.instance;
+  }
+
+
   get count() {
-    return window.counter.count;
+    return Counter.instance.count;
   }
 }
 

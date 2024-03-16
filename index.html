@@ -7,12 +7,31 @@
     <title>Vite + TS</title>
   </head>
   <body>
+    <button class="counter-action" data-action="decrement">-</button>
     <div id="app"></div>
+    <button class="counter-action" data-action="increment">+</button>
     <script type="module">
-      await customElements.whenDefined('counter-singleton');
-      window.counter.addEventListener('change', (event) => {
-        console.log('count', event.count);
-      });
+      /**
+       * Example of some quick and dirty code that
+       * doesn't import the counter but we can still
+       * tap into the global state.
+       */
+      async function setup() {
+        // wait for our singleton to setup
+        await customElements.whenDefined('counter-singleton');
+        const counter = (new (customElements.get('counter-singleton'))).counter;
+
+        counter.addEventListener('change', (event) => {
+          console.log('count', event.count);
+        });
+
+        document.querySelector('body').addEventListener('click', event => {
+          if (event.target.classList.contains('counter-action')) {
+            counter[event.target?.dataset?.action]?.();
+          }
+        })
+      }
+      setup();
     </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
