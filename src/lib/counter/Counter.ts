@@ -8,7 +8,7 @@
  *     updateCounter(event.count);
  *   }
  * })
- * counter.count;++;
+ * counter.count++;
  */
 export class Counter extends EventTarget {
   static instance: Counter;
