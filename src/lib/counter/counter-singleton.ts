@@ -7,10 +7,6 @@ import { Counter } from './Counter.ts';
  * const counter = (new (customElements.get('counter-singleton'))).counter;
  */
 export class CounterSingleton extends HTMLElement {
-  constructor() {
-    super();
-  }
-
   get counter() {
     return Counter.instance;
   }

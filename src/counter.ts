@@ -20,5 +20,5 @@ export function setupCounter(element: HTMLButtonElement) {
   // initial update
   updateCounter(counter.count ?? 0);
   // increment the counter on click using the singleton instance
-  element.addEventListener('click', () => counter.increment());
+  element.addEventListener('click', () => counter.count++);
 }

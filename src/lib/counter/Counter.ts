@@ -24,19 +24,10 @@ export class Counter extends EventTarget {
   }
 
   set count(value: number) {
-    this._count = value;
-    this.dispatchEvent(new CounterChangeEvent(this.count));
-  }
-
-  increment(amount = 1) {
-    this.count += amount;
-  }
-
-  decrement(amount = 1) {
-    let newCount = this.count - amount;
-    newCount = newCount < 0 ? 0 : newCount;
+    let newCount = value > 0 ? value : 0;
     if (newCount !== this.count) {
-      this.count = newCount;
+      this._count = newCount;
+      this.dispatchEvent(new CounterChangeEvent(this.count));
     }
   }
 }

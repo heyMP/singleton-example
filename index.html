@@ -16,7 +16,6 @@
        * doesn't import the counter but we can still
        * tap into the global state.
        */
-      import './src/lib/counter/counter-singleton.ts';
       async function setup() {
         // wait for our singleton to setup
         await customElements.whenDefined('counter-singleton');
@@ -28,7 +27,8 @@
 
         document.querySelector('body').addEventListener('click', event => {
           if (event.target.classList.contains('counter-action')) {
-            counter[event.target?.dataset?.action]?.();
+            if (event.target.dataset.action === 'increment') counter.count++;
+            if (event.target.dataset.action === 'decrement') counter.count--;
           }
         })
       }
