@@ -1,3 +1,14 @@
+/**
+ * Counter Singleton
+ * @example
+ * import { Counter } from './lib/counter/Counter.ts';
+ * const counter = Counter.instance;
+ * counter.addEventListener('change', (event: Event) => {
+ *   if (event instanceof CounterChangeEvent) {
+ *     updateCounter(event.count);
+ *   }
+ * })
+ */
 export class Counter extends EventTarget {
   static instance: Counter;
 
@@ -30,29 +41,16 @@ export class Counter extends EventTarget {
 }
 
 /**
- * Events
+ * Counter Change Event
+ * @example
+ * counter.addEventListener('change', (event: Event) => {
+ *  if (event instanceof CounterChangeEvent) {
+ *    updateCounter(event.count);
+ *  }
+ * })
  */
 export class CounterChangeEvent extends Event {
   constructor(public count: number) {
     super('change');
   }
 }
-
-/**
- * Define Custom Element
- */
-export class CounterSingleton extends HTMLElement {
-  constructor() {
-    super();
-  }
-
-  get counter() {
-    return Counter.instance;
-  }
-
-  get count() {
-    return Counter.instance.count;
-  }
-}
-
-customElements.define('counter-singleton', CounterSingleton);

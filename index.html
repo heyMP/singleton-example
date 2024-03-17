@@ -16,6 +16,7 @@
        * doesn't import the counter but we can still
        * tap into the global state.
        */
+      import './src/lib/counter/counter-singleton.ts';
       async function setup() {
         // wait for our singleton to setup
         await customElements.whenDefined('counter-singleton');
