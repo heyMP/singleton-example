@@ -50,7 +50,6 @@ export class CounterSingleton extends HTMLElement {
     return Counter.instance;
   }
 
-
   get count() {
     return Counter.instance.count;
   }
