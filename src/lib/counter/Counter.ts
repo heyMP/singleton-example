@@ -9,6 +9,15 @@
  *   }
  * })
  * counter.count++;
+ *
+ * OR with async iterator
+ *
+ * import { Counter } from './lib/counter/Counter.ts';
+ * const counter = Counter.instance;
+ * for await (const count of counter) {
+ *  updateCounter(count);
+ * }
+ * counter.count++;
  */
 export class Counter extends EventTarget {
   static instance: Counter;
@@ -17,7 +26,7 @@ export class Counter extends EventTarget {
     Counter.instance = new Counter();
   }
 
-  private _count = 0;
+  private _count = Number(window.localStorage.getItem('counter')) ?? 0;
 
   get count() {
     return this._count;
@@ -27,8 +36,20 @@ export class Counter extends EventTarget {
     let newCount = value > 0 ? value : 0;
     if (newCount !== this.count) {
       this._count = newCount;
+      window.localStorage.setItem('counter', this.count.toString());
       this.dispatchEvent(new CounterChangeEvent(this.count));
     }
+  }
+
+  async *countStream() {
+    while (true) {
+      yield this.count;
+      await new Promise(resolve => this.addEventListener('change', resolve, { once: true }));
+    }
+  }
+
+  async *[Symbol.asyncIterator]() {
+    yield* this.countStream();
   }
 }
 

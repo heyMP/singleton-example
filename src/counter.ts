@@ -4,7 +4,7 @@ import { CounterChangeEvent, Counter } from './lib/counter/Counter.ts';
  * Example of a reactive component that listens to changes in the counter
  * singleton and send incrementing events to it.
  */
-export function setupCounter(element: HTMLButtonElement) {
+export async function setupCounter(element: HTMLButtonElement) {
   // reference singleton instance
   const counter = Counter.instance;
   // listen for changes to the counter

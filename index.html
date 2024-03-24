@@ -21,16 +21,16 @@
         await customElements.whenDefined('counter-singleton');
         const counter = (new (customElements.get('counter-singleton'))).counter;
 
-        counter.addEventListener('change', (event) => {
-          console.log('count', event.count);
-        });
-
         document.querySelector('body').addEventListener('click', event => {
           if (event.target.classList.contains('counter-action')) {
             if (event.target.dataset.action === 'increment') counter.count++;
             if (event.target.dataset.action === 'decrement') counter.count--;
           }
         })
+
+        for await (const count of counter) {
+          console.log('Counter:', count);
+        }
       }
       setup();
     </script>

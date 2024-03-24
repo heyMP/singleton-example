@@ -1,8 +1,10 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
-import { Counter } from './lib/counter/Counter.ts'
+import './style.css';
+import typescriptLogo from './typescript.svg';
+import viteLogo from '/vite.svg';
+import { setupCounter } from './counter.ts';
+import { setupCounter as asyncSetupCounter } from './counterAsyncIterator.ts';
+import { Counter } from './lib/counter/Counter.ts';
+import './my-counter.ts';
 // register the global singleton side-effect
 // so that other clients can access it without
 // needing to import it directly.
@@ -20,8 +22,22 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     </a>
     <h1>Vite + TypeScript</h1>
     <div class="card">
-      <button id="counter" type="button"></button>
-      <button id="reset" type="button">Reset</button>
+      <div>
+        <label>Standard Counter:</label>
+        <button id="counter" type="button"></button>
+      </div>
+      <div>
+        <label>Async Counter:</label>
+        <button id="async-counter" type="button"></button>
+      </div>
+      <div>
+        <label>Lit Counter:</label>
+        <my-counter></my-counter>
+      </div>
+      <div>
+        <label>Reset Counter:</label>
+        <button id="reset" type="button">Reset</button>
+      </div>
     </div>
     <p class="read-the-docs">
       Click on the Vite and TypeScript logos to learn more
@@ -30,4 +46,5 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 `
 
 setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+asyncSetupCounter(document.querySelector<HTMLButtonElement>('#async-counter')!)
 document.querySelector('#reset')!.addEventListener('click', () => counter.count = 0)
